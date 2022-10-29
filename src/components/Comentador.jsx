@@ -1,0 +1,114 @@
+import React, { useEffect, useState, createRef } from "react";
+import { Avatar, Button, Comment, Form, Input, List, Tooltip } from "antd";
+import moment from "moment";
+import { v4 as uuid } from "uuid";
+const { TextArea } = Input;
+
+const CommentList = ({ comments }) => {
+  useEffect(() => {
+    if (!comments?.length) return;
+
+    comments.forEach((comment) => {
+      const paginaDiv = document.getElementById(`pagina-${comment.id}`);
+      paginaDiv.innerHTML = comment.pagina;
+    });
+  }, [comments]);
+
+  const handleSocialClick = () => {
+    console.log("social click");
+  };
+
+  const renderActions = ({ id }) => {
+    const actions = [
+      <Tooltip key="comment-social">
+        <div id={`pagina-${id}`}></div>
+      </Tooltip>,
+    ];
+    return actions;
+  };
+
+  return (
+    <List
+      dataSource={comments}
+      header={`${comments.length} ${comments.length > 1 ? "replies" : "reply"}`}
+      itemLayout="horizontal"
+      renderItem={(props) => {
+        return <Comment {...props} actions={renderActions(props)} />;
+      }}
+    />
+  );
+};
+
+const Editor = ({ comments, setComments }) => {
+  const [value, setValue] = useState("");
+  const [username, setUsername] = useState("");
+  const [pagina, setPagina] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleComentar = () => {
+    if (!value || !username || !pagina) return;
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
+      const comentarios = [
+        ...comments,
+        {
+          id: uuid(),
+          author: username,
+          avatar: "https://joeschmoe.io/api/v1/random",
+          pagina: pagina,
+          content: value,
+          datetime: moment().fromNow(),
+        },
+      ];
+      setComments(comentarios);
+      localStorage.setItem("comentarios", JSON.stringify(comentarios));
+      setValue("");
+      setUsername("");
+      setPagina("");
+    }, 1000);
+  };
+
+  return (
+    <>
+      <Form.Item>
+        <TextArea rows={4} onChange={(e) => setValue(e.target.value)} value={value} />
+      </Form.Item>
+      <div style={{ display: "flex", gap: "2%" }}>
+        <Form.Item>
+          <Input placeholder="Nombre de Usuario" onChange={(e) => setUsername(e.target.value)} value={username} />
+        </Form.Item>
+        <Form.Item>
+          <Input placeholder="Web o red social" onChange={(e) => setPagina(e.target.value)} value={pagina} />
+        </Form.Item>
+      </div>
+      <Form.Item>
+        <Button htmlType="submit" loading={submitting} onClick={handleComentar} type="primary">
+          Comentar
+        </Button>
+      </Form.Item>
+    </>
+  );
+};
+
+const Comentador = () => {
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    const comentarios = JSON.parse(localStorage.getItem("comentarios"));
+    if (!comentarios?.length) return;
+    setComments(comentarios);
+  }, []);
+
+  return (
+    <>
+      {comments.length > 0 && <CommentList comments={comments} />}
+      <Comment
+        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+        content={<Editor setComments={setComments} comments={comments} />}
+      />
+    </>
+  );
+};
+
+export default Comentador;
