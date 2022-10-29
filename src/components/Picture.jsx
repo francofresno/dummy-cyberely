@@ -7,7 +7,7 @@ const Picture = ({ data }) => {
         <img src={data.src.large} alt="img" />
       </div>
       <div className="info">
-        <a style={{ color: "SteelBlue" }}>Fruta: {data.nombre}&ensp;</a>
+        <div style={{ color: "SteelBlue" }}>Fruta: {data.nombre}&ensp;</div>
       </div>
     </div>
   );
