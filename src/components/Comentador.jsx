@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Button, Comment, Form, Input, List, Tooltip } from "antd";
 import moment from "moment";
 import { v4 as uuid } from "uuid";
@@ -13,10 +13,6 @@ const CommentList = ({ comments }) => {
       paginaDiv.innerHTML = comment.pagina;
     });
   }, [comments]);
-
-  const handleSocialClick = () => {
-    console.log("social click");
-  };
 
   const renderActions = ({ id }) => {
     const actions = [
