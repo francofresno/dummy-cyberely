@@ -3,7 +3,7 @@ import { Button } from "antd";
 
 const Footer = () => {
   const handleVerImagen = () => {
-    window.location.replace(`redirect/dest?https://forms.gle/m1isNQdp6kX4MxY17`);
+    window.location.replace(`redirect?dest=https://forms.gle/m1isNQdp6kX4MxY17`);
   };
 
   return (
