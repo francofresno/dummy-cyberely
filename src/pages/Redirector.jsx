@@ -8,7 +8,7 @@ const Redirector = () => {
 
   useEffect(() => {
     if (!location) return;
-    const dest = location.search.substring(6);
+    const dest = location.search.substring(1);
     window.location.replace(dest);
   }, [location]);
 

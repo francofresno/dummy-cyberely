@@ -17,7 +17,9 @@ function App() {
           <About />
         </Route>
         <Route path="/redirect">
-          <Redirector />
+          <Route path="/:dest">
+            <Redirector />
+          </Route>
         </Route>
         <Route path="*">
           <Homepage />
