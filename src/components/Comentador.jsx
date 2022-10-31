@@ -46,22 +46,39 @@ const Editor = ({ comments, setComments }) => {
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
-      const comentarios = [
-        ...comments,
-        {
-          id: uuid(),
-          author: username,
-          avatar: "https://joeschmoe.io/api/v1/random",
-          pagina: pagina,
-          content: value,
-          datetime: moment().fromNow(),
-        },
-      ];
-      setComments(comentarios);
-      localStorage.setItem("comentarios", JSON.stringify(comentarios));
-      setValue("");
-      setUsername("");
-      setPagina("");
+      // localStorage.setItem("comentarios", JSON.stringify(comentarios));
+      fetch(`http://localhost:5000/usuarios/comentarios`, {
+        method: "POST",
+        mode: "cors",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          usuarioId: 1,
+          comentario: value,
+          social: pagina,
+          nombre: username,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const comentarios = [
+            ...comments,
+            {
+              id: uuid(),
+              author: username,
+              avatar: "https://joeschmoe.io/api/v1/random",
+              pagina: pagina,
+              content: value,
+              datetime: moment().fromNow(),
+            },
+          ];
+          setComments(comentarios);
+          setValue("");
+          setUsername("");
+          setPagina("");
+
+          console.log("🚀 ~ data", data);
+        });
     }, 1000);
   };
 
@@ -91,9 +108,27 @@ const Comentador = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    const comentarios = JSON.parse(localStorage.getItem("comentarios"));
-    if (!comentarios?.length) return;
-    setComments(comentarios);
+    // const comentarios = JSON.parse(localStorage.getItem("comentarios"));
+    fetch(`http://localhost:5000/usuarios/comentarios?usuarioId=1`, {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const mappedComments = data?.rows?.map((r) => {
+          return {
+            id: r.usuario_id,
+            author: r.nombrecomentario,
+            avatar: "https://joeschmoe.io/api/v1/random",
+            pagina: r.redsocial,
+            content: r.comentario,
+            datetime: moment().fromNow(),
+          };
+        });
+        console.log("🚀 ~ mappedComments", mappedComments);
+        setComments(mappedComments || []);
+      });
   }, []);
 
   return (
