@@ -1,5 +1,6 @@
 import React, { createRef } from "react";
 import { Input } from "antd";
+import { URL } from "../utils/url";
 
 const { Search: SearchAntD } = Input;
 
@@ -7,8 +8,16 @@ const Search = () => {
   const divRef = createRef();
 
   const handleSearch = (value) => {
-    const busquedaMessage = `Error al buscar: ${value}`;
-    divRef.current.innerHTML = busquedaMessage;
+    fetch(`${URL}/busqueda?q=${value}`, {
+      method: "GET",
+      mode: "cors",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const busquedaMessage = `Error al buscar: ${data}`;
+        divRef.current.innerHTML = busquedaMessage;
+      });
   };
 
   return (
