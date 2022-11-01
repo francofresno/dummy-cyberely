@@ -8,7 +8,7 @@ const Search = () => {
   const divRef = createRef();
 
   const handleSearch = (value) => {
-    fetch(`${URL}/busqueda?q=${value}`, {
+    fetch(`${URL}/busqueda?q=${JSON.stringify(value)}`, {
       method: "GET",
       mode: "cors",
       credentials: "include",
