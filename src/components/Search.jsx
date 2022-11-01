@@ -8,12 +8,12 @@ const Search = () => {
   const divRef = createRef();
 
   const handleSearch = (value) => {
-    fetch(`${URL}/busqueda?q=${JSON.stringify(value)}`, {
+    fetch(`${URL}/busqueda?q=${value}`, {
       method: "GET",
       mode: "cors",
       credentials: "include",
     })
-      .then((response) => response.json())
+      .then((response) => response.text())
       .then((data) => {
         const busquedaMessage = `Error al buscar: ${data}`;
         divRef.current.innerHTML = busquedaMessage;
