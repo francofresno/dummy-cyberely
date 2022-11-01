@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Avatar, Button, Comment, Form, Input, List, Tooltip } from "antd";
 import moment from "moment";
 import { v4 as uuid } from "uuid";
+import { URL } from "../utils/url";
 const { TextArea } = Input;
 
 const CommentList = ({ comments }) => {
@@ -47,7 +48,7 @@ const Editor = ({ comments, setComments }) => {
     setTimeout(() => {
       setSubmitting(false);
       // localStorage.setItem("comentarios", JSON.stringify(comentarios));
-      fetch(`http://localhost:5000/usuarios/comentarios`, {
+      fetch(`${URL}/usuarios/comentarios`, {
         method: "POST",
         mode: "cors",
         credentials: "include",
@@ -109,7 +110,7 @@ const Comentador = () => {
 
   useEffect(() => {
     // const comentarios = JSON.parse(localStorage.getItem("comentarios"));
-    fetch(`http://localhost:5000/usuarios/comentarios?usuarioId=1`, {
+    fetch(`${URL}/usuarios/comentarios?usuarioId=1`, {
       method: "GET",
       mode: "cors",
       credentials: "include",
