@@ -47,7 +47,7 @@ const Editor = ({ comments, setComments }) => {
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
-      fetch(`${URL}/hacerComentario?usuarioId=1&comentario=${value}&social=${pagina}&nombre=${username}`, {
+      fetch(`${URL}/usuarios/hacerComentario?usuarioId=1&comentario=${value}&social=${pagina}&nombre=${username}`, {
         method: "GET",
         mode: "cors",
         credentials: "include",
