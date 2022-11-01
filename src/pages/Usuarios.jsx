@@ -42,7 +42,6 @@ const Usuarios = () => {
   };
 
   const handleClickCrear = () => {
-    console.log("🚀 ~ nombre || !contraseña || !email", nombre, contraseña, email);
     if (!nombre || !password || !email) return;
 
     fetch(`${URL}/usuarios/crearUsuario`, {

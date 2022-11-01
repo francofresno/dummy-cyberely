@@ -47,18 +47,10 @@ const Editor = ({ comments, setComments }) => {
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
-      // localStorage.setItem("comentarios", JSON.stringify(comentarios));
-      fetch(`${URL}/usuarios/comentarios`, {
-        method: "POST",
+      fetch(`${URL}/hacerComentario?usuarioId=1&comentario=${value}&social=${pagina}&nombre=${username}`, {
+        method: "GET",
         mode: "cors",
         credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          usuarioId: 1,
-          comentario: value,
-          social: pagina,
-          nombre: username,
-        }),
       })
         .then((response) => response.json())
         .then((data) => {
@@ -109,7 +101,6 @@ const Comentador = () => {
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
-    // const comentarios = JSON.parse(localStorage.getItem("comentarios"));
     fetch(`${URL}/usuarios/comentarios?usuarioId=1`, {
       method: "GET",
       mode: "cors",
