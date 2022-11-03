@@ -12,11 +12,11 @@ const Redirector = () => {
   useEffect(() => {
     if (!location) return;
     const dest = location.search.substring(6);
-    // const estaEnWhitelist = whitelist.some((pagina) => pagina === dest);
-    // if (!estaEnWhitelist) {
-    //   window.location.replace(URL_FRONT);
-    //   return;
-    // }
+    const estaEnWhitelist = whitelist.some((pagina) => pagina === dest);
+    if (!estaEnWhitelist) {
+      window.location.replace(URL_FRONT);
+      return;
+    }
 
     window.location.replace(dest);
   }, [location]);
